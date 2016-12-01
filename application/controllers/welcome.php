@@ -15,7 +15,7 @@ Class Welcome extends Controller{
 	   * ------------------------------------------------------
 	   */
 		$this->session->setSession('test','value',true);
-		$sessionValue = $this->session->getSession('test'));
+		$sessionValue = $this->session->getSession('test');
 		echo ($this->session->compareSessionValue('test','value'));
 
 		/*
