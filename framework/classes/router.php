@@ -238,9 +238,10 @@
      * -------------------------------------------------------------------
      */ 
       $method = $_SERVER['REQUEST_METHOD'];
-      if(!empty($alternativeRoute['ANY'][$this->getController().'/'.$this->getMethod()])){
+      
+      if(!empty($alternativeRoute['ANY'][$this->getController().'/'.$this->getMethod()]) || !empty($alternativeRoute['ANY'][$this->getController()])){
         $methodCaller = 'ANY';
-      }else if(!empty($alternativeRoute[$method][$this->getController().'/'.$this->getMethod()])){
+      }else if(!empty($alternativeRoute[$method][$this->getController().'/'.$this->getMethod()]) || !empty($alternativeRoute[$method][$this->getController()])){
         $methodCaller = $method;
       }else{
         die('Path problem');
@@ -250,7 +251,12 @@
      *  Replaces controller and method and calls again to route caller
      * ----------------------------------------------------------------
      */ 
-      $url = explode(SEPARATOR_BAR,$alternativeRoute[$methodCaller][$this->getController().'/'.$this->getMethod()]);
+      if(empty($this->getMethod())){
+        $url = explode(SEPARATOR_BAR,$alternativeRoute[$methodCaller][$this->getController()]);  
+      }else{
+        $url = explode(SEPARATOR_BAR,$alternativeRoute[$methodCaller][$this->getController().'/'.$this->getMethod()]);
+      }
+      
       $this->controller = $url[0];
       $this->method = $url[1];
       $this->routeCaller(array(),0);
