@@ -55,6 +55,9 @@ class Contacts extends Controller{
         }
     }
 
+    /**
+     * Get all function
+     */
     public function index(){
         $contacts = contactsModel::findAll();
         foreach($contacts as $k=>$contact){
@@ -65,6 +68,11 @@ class Contacts extends Controller{
         }
         echo json_encode(['success'=>true,'data'=>$contactsRet]);
     }
+
+    /**
+     * Search for contact
+     * @param $params
+     */
     public function search($params){
         $q = $params[0] ?? 0;
         if(empty($q)){
@@ -91,6 +99,11 @@ OR email LIKE "%'.htmlentities($q).'%"');
 
         echo json_encode(['success'=>true,'data'=>$contactsRet]);
     }
+
+    /**
+     * Get one contact
+     * @param $data
+     */
     public function getOne($data){
         $id = $data[0] ?? 0;
         if(empty($id)){
@@ -116,7 +129,9 @@ OR email LIKE "%'.htmlentities($q).'%"');
         echo json_encode(['success'=>true,'data'=>$contactRet]);
     }
 
-
+    /**
+     * Create contact
+     */
     public function create(){
         $data = $this->request;
         if(empty($data) || empty($data['first_name']) || empty($data['last_name'])){
@@ -149,6 +164,11 @@ OR email LIKE "%'.htmlentities($q).'%"');
         }
         echo json_encode(['success'=>true,'message'=>'Contact has been created']);
     }
+
+    /**
+     * get contact photo
+     * @param $params
+     */
     public function photos($params){
 
         $id = $params[0] ?? 0;
@@ -177,6 +197,11 @@ OR email LIKE "%'.htmlentities($q).'%"');
         }
         echo '<img src="' . $contact->object->photo . '" />';
     }
+
+    /**
+     * update contact
+     * @param $params
+     */
     public function update($params){
 
         $id = $params[0] ?? 0;
@@ -210,6 +235,11 @@ OR email LIKE "%'.htmlentities($q).'%"');
         $contact->save();
         echo json_encode(['success'=>true,'message'=>'Contact have been updated']);
     }
+
+    /**
+     * Add Phones and Emails
+     * @param $params
+     */
     public function addPE($params){
         $id = $params[0] ?? 0;
         if(empty($id)){
@@ -239,6 +269,11 @@ OR email LIKE "%'.htmlentities($q).'%"');
         }
         echo json_encode(['success'=>true,'message'=>'Contact has been edited']);
     }
+
+    /**
+     * Delete contact
+     * @param $params
+     */
     public function delete($params){
         $id = $params[0] ?? 0;
         if(empty($id)){
@@ -248,7 +283,14 @@ OR email LIKE "%'.htmlentities($q).'%"');
             ));
             die();
         }
-
+        $contact = new contactsModel($id);
+        if(empty($contact)){
+            echo json_encode(array(
+                "success" => false,
+                "error" => "Contact does not exist"
+            ));
+            die();
+        }
 
         $phones = phonesModel::find('contact_id = ?',[$id]);
         R::trashAll($phones);
@@ -256,7 +298,7 @@ OR email LIKE "%'.htmlentities($q).'%"');
         $emails = emailsModel::find('contact_id = ?',[$id]);
         R::trashAll($emails);
 
-        $contact = new contactsModel($id);
+
         $contact->delete();
 
         echo json_encode(['success'=>true,'message'=>'Contact has been deleted']);

@@ -16,6 +16,9 @@ class Users extends Controller
         $this->loader->model('usersModel');
     }
 
+    /**
+     * Register for the api
+     */
     public function register()
     {
         $user = new usersModel();
@@ -34,6 +37,10 @@ class Users extends Controller
         $user->save();
         echo json_encode(['success'=>true,'message'=>'User has been created']);
     }
+
+    /**
+     * Login for the Api
+     */
     public function login()
     {
         $data = $this->request;
