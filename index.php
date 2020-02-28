@@ -247,7 +247,7 @@ if (defined('ENVIRONMENT'))
 	// The path to the "application" folder
 
 
-    define('APPPATH', BASEPATH.$application_folder.'/');
+    define('APPPATH', BASEPATH.'/../'.$application_folder.'/');
 
 
 
