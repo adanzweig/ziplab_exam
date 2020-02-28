@@ -24,5 +24,4 @@
 | $loader['models'] = array('newModel')
 */
 
-$loader['core'] = array('session');
 $loader['models'] = array('contactsModel','emailsModel','phonesModel','usersModel');
