@@ -150,14 +150,14 @@
      * ------------------------------------------------------
      *  Call the controller inside application
      * ------------------------------------------------------
-     */  
-      if(file_exists(APPPATH.'controllers/'.$this->getController().'.php')){
+     */
+      if(file_exists(APPPATH.'controllers/'.ucfirst($this->getController()).'.php')){
       /*
        * ------------------------------------------------------
        *  Include and instantiate controller
        * ------------------------------------------------------
        */  
-        include_once(APPPATH.'controllers/'.$this->getController().'.php');
+        include_once(APPPATH.'controllers/'.ucfirst($this->getController()).'.php');
         $UcaseClass = ucfirst($this->getController());
         $newClass = new $UcaseClass();  
           /*
