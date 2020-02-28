@@ -12,6 +12,11 @@ class Contacts extends Controller{
     public function __construct()
     {
         parent::__construct();
+
+        $this->loader->model('contactsModel');
+        $this->loader->model('emailsModel');
+        $this->loader->model('phonesModel');
+
         if($this->router->method != 'photos') {
             if (empty($_SERVER['HTTP_AUTHORIZATION'])) {
                 http_response_code(401);

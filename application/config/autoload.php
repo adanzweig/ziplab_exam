@@ -24,4 +24,4 @@
 | $loader['models'] = array('newModel')
 */
 
-$loader['models'] = array('contactsModel','emailsModel','phonesModel','usersModel');
+$loader['core'] = array();

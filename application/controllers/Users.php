@@ -10,6 +10,12 @@ use \Firebase\JWT\JWT;
 
 class Users extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->loader->model('usersModel');
+    }
+
     public function register()
     {
         $user = new usersModel();
