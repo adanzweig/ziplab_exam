@@ -85,8 +85,8 @@ OR email LIKE "%'.htmlentities($q).'%"');
         foreach($contacts as $k=>$contact){
             $contactsRet[$k] = $contact->export();
             $contactsRet[$k]['photo'] = $_SERVER['HTTP_HOST'].'/contacts/photos/'.$contactsRet[$k]['id'];
-            $contactsRet[$k]['phones'] = $contact->phones();
-            $contactsRet[$k]['emails'] = $contact->emails();
+            $contactsRet[$k]['phones'] = contactsModel::getPhones($contact->id);
+            $contactsRet[$k]['emails'] = contactsModel::getEmails($contact->id);
         }
 
         echo json_encode(['success'=>true,'data'=>$contactsRet]);
@@ -111,8 +111,8 @@ OR email LIKE "%'.htmlentities($q).'%"');
         }
         $contactRet = $contact->export();
         $contactRet['photo'] = $_SERVER['HTTP_HOST'].'/contacts/photos/'.$contact->id;
-        $contactRet['phones'] = $contact->phones();
-        $contactRet['emails'] = $contact->emails();
+        $contactRet['phones'] = contactsModel::getPhones($contact->id);
+        $contactRet['emails'] = contactsModel::getEmails($contact->id);
         echo json_encode(['success'=>true,'data'=>$contactRet]);
     }
 
