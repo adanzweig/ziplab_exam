@@ -17,7 +17,7 @@
  */
 	foreach(glob(APPPATH.'config/*') as $file) {
 	    // var_dump($file);
-	    include(FCPATH.$file);
+	    include($file);
 	}
 
 /*
