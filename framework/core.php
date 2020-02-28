@@ -1,14 +1,4 @@
 <?php
-/**
-* Transition MVC
-*
-* An open source application development framework for PHP
-* @package	Transition MVC
-* @author	Adan J. Zweig
-* @license	http://opensource.org/licenses/MIT	MIT License
-* @since	Version 1.0.0
-*/
-
 /*
  * ------------------------------------------------------
  *  Load the framework core classes
@@ -17,9 +7,7 @@
 	include ('classes/rb.php');
 	include ('classes/controller.php');
 	include ('classes/router.php');
-	include ('classes/session.php');
 	include ('classes/loader.php');
-	include ('classes/viewer.php');
 	include ('classes/model.php');
 
 /*
@@ -46,17 +34,15 @@
  *  Make the Controller load this Dependencies
  * ------------------------------------------------------
  */
-	$loader['core'][] =  "viewer";
 	$loader['core'][] =  "loader";
 	$controller->loader = $loader;
 
 /*
- * ------------------------------------------------------
- *  Add Methods to the Controller Parent
- * ------------------------------------------------------
- */
-	$controller->routes = $routes;
-	$controller->headers = $headers;
+* ------------------------------------------------------
+*  Make the Controller load Body requests
+* ------------------------------------------------------
+*/
+    $controller->request = json_decode(file_get_contents('php://input'), true);
 
 /*
  * ------------------------------------------------------
@@ -70,8 +56,14 @@
  *  Router to launch the controller and method
  * ------------------------------------------------------
  */
-	$router = new ROUTER();
-	$router->callRoute();
+	$router = new Router($routes);
+	$router->routeCaller();
+/*
+ * ------------------------------------------------------
+ *  Models Loader
+ * ------------------------------------------------------
+ */
+
 
 /**
 	 * Get the CI singleton

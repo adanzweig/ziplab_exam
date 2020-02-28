@@ -1,14 +1,4 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* Transition MVC
-*
-* An open source application development framework for PHP
-* @package  Transition MVC
-* @author Adan J. Zweig
-* @license  http://opensource.org/licenses/MIT  MIT License
-* @since  Version 1.0.0
-*/
-
 
  /**
 
@@ -21,11 +11,10 @@
 Class Model{
   /*
    * ----------------------------------------------------------------------
-   *  Variable that contains the redbean instance called attribute for UX
+   *  Variable that contains the redbean instance called object for UX
    * ----------------------------------------------------------------------
    */
-	public  $attribute;
-   
+	public  $object;
    /**
    * Constructor
    *
@@ -48,13 +37,13 @@ Class Model{
 	   * ----------------------------------------------------------------------
 	   */
 		if(empty($id)){
-			$this->attribute = R::dispense( static::$table );	
+			$this->object = R::dispense( static::$table );
 
 		}else{
-			$this->attribute = R::load( static::$table,$id );
+			$this->object = R::load( static::$table,$id );
 		}
-		
-		return $this->attribute;
+
+		return $this->object;
 		
 	}
 
@@ -66,8 +55,35 @@ Class Model{
    * @return integer $id
    */
 	public function save(){
-		return R::store($this->attribute);
+		return R::store($this->object);
 	}
+
+    /**
+     * Search
+     *
+     * Find one or more coincidences
+     *
+     * @param string $compare where clause
+     * @param string[] $param array variables to match
+     *
+     * @return Model[] elements
+     */
+    public static function findOne($compare,$param){
+        /*
+       * ----------------------------------------------------------------------
+       *  Call Redbean Find method
+       * ----------------------------------------------------------------------
+       */
+        $elem = R::findOne(static::$table,$compare,$param);
+        $elemList = array();
+        /*
+       * ----------------------------------------------------------------------
+       *  Run every result and create a new RedBean element per each result
+       * ----------------------------------------------------------------------
+       */
+        return $elem;
+    }
+
 
 	/**
    * Search
@@ -142,6 +158,7 @@ Class Model{
 	   *  Run every result and create a new RedBean element per each result
 	   * ----------------------------------------------------------------------
 	   */
+
 		return Self::getRBElements($elems);
 	}
 
@@ -158,7 +175,13 @@ Class Model{
 		$elemList = array();
 		$model = ucfirst(get_called_class());
 		foreach($elements as $elem){
-			$elemList[] = new $model($elem->id);
+		    if(is_array($elem)){
+                $elem = new $model($elem['id']);
+            }else{
+                $elem = new $model($elem->id);
+            }
+
+			$elemList[] = $elem->object;
 		}
 		return $elemList;
 	}
@@ -170,16 +193,7 @@ Class Model{
    *
    */
 	public function delete(){
-		R::trash($this->attribute);
+		R::trash($this->object);
 	}
 
-   /**
-   * Get the CI singleton
-   *
-   * @static
-   * @return  object
-   */
-	public static function &get_instance(){
-		return Controller::$instance;
-	}
 }

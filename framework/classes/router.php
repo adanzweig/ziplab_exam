@@ -1,14 +1,4 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* Transition MVC
-*
-* An open source application development framework for PHP
-* @package  Transition MVC
-* @author Adan J. Zweig
-* @license  http://opensource.org/licenses/MIT  MIT License
-* @since  Version 1.0.0
-*/
-
 
  /**
 
@@ -61,7 +51,7 @@
    * Router initializer
    *
    */
-    public function __construct()
+    public function __construct($routes)
     {
 
       /*
@@ -69,17 +59,42 @@
      *  Translate URL into controller, method and params
      * ------------------------------------------------------
      */
+      if(empty($_SERVER['PATH_INFO'])){
+          die('Invalid URL');
+      }
+        $routeInUse = null;
         $url = explode(SEPARATOR_BAR,$_SERVER['PATH_INFO'],4);
-        $this->controller = $url[1];
-        @$this->method = $url[2];
-        @$this->params = explode(SEPARATOR_BAR,$url[3]);
+        foreach($routes[$_SERVER['REQUEST_METHOD']] as $key=>$route){
+            preg_match('/'.str_replace(SEPARATOR_BAR,"\\".SEPARATOR_BAR,$key).'$/', $_SERVER['PATH_INFO'], $output_array);
+            if(!empty($output_array)){
+                $r = explode(SEPARATOR_BAR,$route,4);
+                $this->controller = $r[0];
+                $this->method = $r[1];
+                break;
+            }
+        }
+        if(empty($this->controller)){
+            $this->controller = $url[1];
+            @$this->method = $url[2];
+        }
+        if(!empty($url[2])){
+            if(is_numeric($url[2])){
+                @$this->params = explode(SEPARATOR_BAR,$url[2]);
+            }else{
+                @$this->params = explode(SEPARATOR_BAR,$url[3]);
+            }
+        }
+
+
+
 
     /*
      * ------------------------------------------------------
      *  Initialize pointers to Controller and Router
      * ------------------------------------------------------
      */  
-        $this->instance = &get_instance();
+        $this->instance = &Controller::get_instance();
+        $this->instance->router = $this;
         Self::$router = &$this;
     }
   /**
@@ -120,39 +135,16 @@
         return $this->params;
     }
 
-  /**
-   * Call Route
-   *
-   * Call route facade
-   *
-   *
-   * @return  void
-   */
-  public function callRoute(){
-    $this->routeCaller(1);
-  }
 
   /**
    * Route Caller
    *
    * Calls the controller and method
    *
-   * @param bool $router flag to call alternative or die
    *
    * @return  string[] params
    */
-  private function routeCaller($router){
-
-    /*
-     * ------------------------------------------------------------------------------
-     *  Check and Call directly a .php file without framework - Plugins or Old Code
-     * ------------------------------------------------------------------------------
-     */  
-      if(strpos($this->controller,'.php') > 0){
-        
-        include(FCPATH.APPPATH.'plugins/'.$this->controller);
-        die();
-      }
+  public function routeCaller(){
 
     /*
      * ------------------------------------------------------
@@ -182,11 +174,9 @@
                *  Check alternative routes from config/routes.php file or DIE
                * -------------------------------------------------------------
                */  
-                if($router){
-                  $this->checkAlternativeRoutes();  
-                }else{
+
                   die('Method does not exist');
-                }
+
             }
           }else{
               /*
@@ -208,11 +198,7 @@
            *  Check alternative routes from config/routes.php file or DIE
            * -------------------------------------------------------------
            */  
-            if($router){
-                  $this->checkAlternativeRoutes();  
-              }else{
-                die('Controller does not exist');
-              }
+            die('Controller does not exist');
         }
   }
 
@@ -234,7 +220,7 @@
       $alternativeRoute = $this->instance->routes;
     /*
      * -------------------------------------------------------------------
-     *  Get method caller (GET, POST, DELETE, PUT, HEAD, OPTIONS or ANY)
+     *  Get method caller (GET, POST, DELETE, PUT, HEAD, PATCH, OPTIONS or ANY)
      * -------------------------------------------------------------------
      */ 
       $method = $_SERVER['REQUEST_METHOD'];
@@ -261,13 +247,4 @@
       $this->method = $url[1];
       $this->routeCaller(array(),0);
   }
-  /**
-   * Get the CI singleton
-   *
-   * @static
-   * @return  object
-   */
-    function &get_instance(){
-      return Controller::get_instance();
-    }
 }

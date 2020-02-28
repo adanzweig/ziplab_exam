@@ -1,6 +1,4 @@
 <?php
-
-
 /*
 
  *---------------------------------------------------------------
@@ -291,7 +289,7 @@ if (defined('ENVIRONMENT'))
  *
 
  */
-
+require "vendor/autoload.php";
 require_once BASEPATH.'core.php';
 
 

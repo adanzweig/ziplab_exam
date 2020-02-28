@@ -1,56 +1,39 @@
-# Transition-MVC
-PHP Framework to update old fashioned and structured PHP into a ligthweight MVC framework
+# Ziplab exam
+CRUD for phonebook
 
-# ORM Tutorial
+##Assesment:
 
-	$this->loader->model('ModelClass');
+Create a CRUD (API) where you will register, phone numbers in a phone book, you need to save the following fields:
 
-	## Insert
-		$elem = new ModelClass();
-		$elem->attribute->name = 'name';
-		$id = $elem->save();
+-First name.
 
-	## Get
-		$elements = WelcomeModel::find('name = ?',array( 'name' ) );
-		foreach($elements as $elem){
-			$elem;
-		}
-			
-	## Update
-		$elem = new ModelClass(1);
-		$elem->attribute->name = 'name other';
-		$elem->save();
-				
-	## Delete
-		$elem->delete();
+-Surnames.
 
-# Sessions Tutorial
-	## Sessions have expiring time, check Session.php file in /framework/classes/session.php
+-Phones: N telephones can be stored.
 
-	## Set session
-		$this->session->setSession('session name','session value',Encrypt flag[true/false]);
-	## Get session
-		$sessionValue = $this->session->getSession('session name'));
-	## Compare session value
-		$this->session->compareSessionValue('session name','new value');
+-Email: N Emails can be saved.
 
-# HTTP Request Tutorial
-	
-	## Direct URL call 
-		/Controller/Method
+You must use MySQL, ensuring the integrity of every transaction (add dump file to the code)
 
-	## Friendly URL
-		Go to /application/config/routes.php and add a router.
+You should make only the Endpoints of a REST API, which will be consumed through POSTMAN for its evaluation.
 
-	## Plugins or Old code
-		/file.php 
-		The extension ".php" makes the framework understand that it doesn't need the frame code and goes to application/plugins/Path and file sent.
+The use of PHP Framework is not allowed.
 
-	## Old code compare
-		Add in the controller the parameter:
-			 $data['router']['old'][] = 'Controller/Method';
-			 or 
-			 $data['router']['old'] = array('Controller/Method','/newPlugin/file.php');
+Nice to Have:
 
-		Then call the same controller with /old/[array position of the route you need to check]
+Save the photo of contacts.
 
+Create a call to filter the contacts for each of the fields: Name, Surname, any of the captured phones and/or any of the captured emails
+
+Code must be allocated on Github (provide the link) and please mount the API in a hosting and personal domain and also share it with us.
+
+###How to use
+
+
+Postman Collection: https://www.getpostman.com/collections/8a81eae5227d1fa35faf
+
+-- Register to the Api using AUTH / register command ( /register )
+
+-- Login to the Api using AUTH / login command ( /login )
+
+-- Copy the jwt token to the Header on each action you want to check

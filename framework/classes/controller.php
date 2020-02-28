@@ -1,14 +1,4 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* Transition MVC
-*
-* An open source application development framework for PHP
-* @package  Transition MVC
-* @author Adan J. Zweig
-* @license  http://opensource.org/licenses/MIT  MIT License
-* @since  Version 1.0.0
-*/
-
 
  /**
 
@@ -57,7 +47,7 @@ class Controller {
 				if($route == 'core'){
 					$path = BASEPATH.'classes/';
 				}else{
-					$path = APPPATH.$route.'/';
+					$path = BASEPATH.'../'.APPPATH.$route.'/';
 				}
 				if(file_exists($path.$class.'.php')){
 					require_once($path.$class.'.php');

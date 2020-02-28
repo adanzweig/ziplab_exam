@@ -30,6 +30,15 @@
 */
 
 $routes = array();
-$routes['ANY']['Welcome/Homer'] = 'Welcome/Home';
-$routes['GET']['Welcome/Home2'] = 'Welcome/Get';
-$routes['POST']['post/action'] = 'Welcome/Home';
+$routes['GET']['contacts/get'] = 'Contacts/index';
+$routes['GET']['contacts/search'] = 'Contacts/search';
+$routes['GET']['contacts'] = 'Contacts/index';
+$routes['GET']['contacts/getOne/[0-9]*'] = 'Contacts/getOne';
+$routes['GET']['contacts/photos/[0-9]*'] = 'Contacts/photos';
+$routes['POST']['contacts'] = 'Contacts/create';
+$routes['PUT']['contacts/[0-9]*'] = 'Contacts/addPE';
+$routes['PATCH']['contacts/[0-9]*'] = 'Contacts/update';
+$routes['DELETE']['contacts/[0-9]*'] = 'Contacts/delete';
+
+$routes['POST']['register'] = 'Users/register';
+$routes['POST']['login'] = 'Users/login';
