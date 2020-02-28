@@ -1,17 +1,6 @@
 <?php
 /*
  * ------------------------------------------------------
- *  Load the application config files
- * ------------------------------------------------------
- */
-foreach(glob(APPPATH.'config/*') as $file) {
-    // var_dump($file);
-    include(APPPATH.'/config/'.$file);
-}
-
-
-/*
- * ------------------------------------------------------
  *  Load the framework core classes
  * ------------------------------------------------------
  */
@@ -21,6 +10,15 @@ foreach(glob(APPPATH.'config/*') as $file) {
 	include ('classes/loader.php');
 	include ('classes/model.php');
 
+/*
+ * ------------------------------------------------------
+ *  Load the application config files
+ * ------------------------------------------------------
+ */
+	foreach(glob(APPPATH.'config/*') as $file) {
+	    // var_dump($file);
+	    include(FCPATH.$file);
+	}
 
 /*
  * ------------------------------------------------------
