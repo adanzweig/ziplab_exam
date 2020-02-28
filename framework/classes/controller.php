@@ -49,6 +49,9 @@ class Controller {
 				}else{
 					$path = BASEPATH.'../'.APPPATH.$route.'/';
 				}
+				var_dump($path);
+				var_dump($path.$class.'.php');
+				die();
 				if(file_exists($path.$class.'.php')){
 					require_once($path.$class.'.php');
 					$ucFirstClass = ucfirst($class);
