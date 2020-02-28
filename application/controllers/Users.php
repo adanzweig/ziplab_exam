@@ -12,7 +12,7 @@ class Users extends Controller
 {
     public function register()
     {
-        $user = new UsersModel();
+        $user = new usersModel();
 
         $data = $this->request;
         if(empty($data) || empty($data['email']) || empty($data['password'])){
@@ -37,7 +37,7 @@ class Users extends Controller
                 "error" => "Invalid data"
             ));
         }
-        $user = UsersModel::findOne('email = ? and password = ?',[$data['email'],hash('sha256',md5($data['password']))]);
+        $user = usersModel::findOne('email = ? and password = ?',[$data['email'],hash('sha256',md5($data['password']))]);
         if(!empty($user)){
             $secret_key = "adanzweig";
             $issuer_claim = "localhost"; // this can be the servername
