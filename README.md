@@ -27,6 +27,15 @@ Create a call to filter the contacts for each of the fields: Name, Surname, any 
 
 Code must be allocated on Github (provide the link) and please mount the API in a hosting and personal domain and also share it with us.
 
+###Deployment
+
+- Clone this repo
+- Create database into mysql
+- Run the commands in /database/zipdev_2020-02-28.sql
+- Edit the application/config/config.php with the credentials
+- For local run you can create your temporal server with the command -S : php -S localhost:8080
+- Now you can run the Postman actions. 
+
 ###How to use
 
 
@@ -37,3 +46,4 @@ Postman Collection: https://www.getpostman.com/collections/8a81eae5227d1fa35faf
 -- Login to the Api using AUTH / login command ( /login )
 
 -- Copy the jwt token to the Header on each action you want to check
+
